@@ -24,12 +24,9 @@ const STATE_COLOR: Record<string, string> = {
 
 export function GraphView({ events }: { events: EngineEvent[] }) {
   const activeProjectId = useAppStore((s) => s.activeProjectId);
-  const refreshKey = useAppStore((s) => s.refreshKey);
   const [showBrokenOnly, setShowBrokenOnly] = useState(false);
   const { data } = useApi<GraphData>(
-    activeProjectId ? `/api/graph?projectId=${activeProjectId}` : null,
-    refreshKey + Math.min(events.length, 3),
-    10000
+    activeProjectId ? `/api/graph?projectId=${activeProjectId}` : null
   );
 
   const canvasRef = useRef<HTMLCanvasElement>(null);

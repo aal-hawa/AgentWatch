@@ -8,7 +8,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Plus } from "lucide-react";
+import { FolderOpen, Plus } from "lucide-react";
+
+function isAbsoluteLocalPath(value: string): boolean {
+  const trimmed = value.trim();
+  return /^[A-Za-z]:[\\/]/.test(trimmed) || trimmed.startsWith("\\\\") || trimmed.startsWith("/");
+}
 
 export function AddProjectDialog() {
   const bumpRefresh = useAppStore((s) => s.bumpRefresh);
@@ -19,8 +24,41 @@ export function AddProjectDialog() {
   const [busy, setBusy] = useState(false);
   const { toast } = useToast();
 
+  const browseForProject = async () => {
+    try {
+      const res = await fetch("/api/folder-picker");
+      const json = await res.json();
+
+      if (!res.ok || !json?.path || typeof json.path !== "string") {
+        throw new Error(json?.error || "Folder picker returned no path");
+      }
+
+      const selectedPath = json.path.trim();
+      setPath(selectedPath);
+      if (!name.trim()) {
+        const last = selectedPath.replace(/[\\/]$/, "").split(/[\\/]/).filter(Boolean).pop() || "";
+        if (last) setName(last);
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Please paste the absolute project path manually instead.";
+      toast({
+        title: "Could not select a folder",
+        description: message,
+        variant: "destructive",
+      });
+    }
+  };
+
   const add = async (rootPath: string, displayName?: string) => {
     if (!rootPath.trim()) return;
+    if (!isAbsoluteLocalPath(rootPath)) {
+      toast({
+        title: "Invalid project path",
+        description: "Use the full absolute local path, for example C:\\Users\\you\\project. Relative folder names are not allowed.",
+        variant: "destructive",
+      });
+      return;
+    }
     setBusy(true);
     try {
       const res = await fetch("/api/projects", {
@@ -61,7 +99,13 @@ export function AddProjectDialog() {
         </DialogHeader>
         <div className="space-y-3 pt-1">
           <div>
-            <div className="mb-1 text-[10px] uppercase tracking-wider text-zinc-500">Project path (absolute)</div>
+            <div className="mb-1 flex items-center justify-between text-[10px] uppercase tracking-wider text-zinc-500">
+              <span>Project path (absolute)</span>
+              <Button type="button" variant="outline" size="sm" className="h-7 border-zinc-700 bg-zinc-900 text-[10px] text-zinc-200 hover:bg-zinc-800" onClick={() => void browseForProject()}>
+                <FolderOpen className="mr-1 h-3.5 w-3.5" />
+                Browse
+              </Button>
+            </div>
             <Input
               value={path}
               onChange={(e) => setPath(e.target.value)}

@@ -1,59 +1,28 @@
-# ============================================================
-# AgentWatch (Next.js) - what NOT to push to GitHub
-# ============================================================
-
-# ---- dependencies ----
-node_modules/
-
-# ---- Next.js build output & caches ----
-.next/
-out/
-build/
-dist/
-.turbo/
-
-# ---- secrets / local env (NEVER push) ----
-.env
-.env.*
-!.env.example
-
-# ---- logs ----
-*.log
-logs/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# ---- local databases: YOUR monitored data, never push ----
-db/
-*.db
-*.db-journal
-*.sqlite
-*.sqlite3
-
-# ---- AgentWatch runtime data ----
-projects/
-.agentwatch-data/
+@'
+# AgentWatch .gitignore
 config.json
 config.local.json
+/projects/
+/.agentwatch-data/
+/data/
 *.awdata/
-
-# ---- typescript / build info ----
-*.tsbuildinfo
-tsconfig.tsbuildinfo
-next-env.d.ts
-
-# ---- OS junk (Windows / macOS / Linux) ----
+*.log
+logs/
+node_modules/
+.next/
+.env
+.env.*
+db/
 Thumbs.db
 ehthumbs.db
 Desktop.ini
-$RECYCLE.BIN/
+ $RECYCLE.BIN/
 .DS_Store
 ._*
 *~
-
-# ---- editors ----
 .vscode/
 .idea/
 *.swp
 *.swo
+tsconfig.tsbuildinfo
+'@ | Set-Content -Path .gitignore -Encoding ASCII
