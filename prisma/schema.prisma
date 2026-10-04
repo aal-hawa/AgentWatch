@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id            String    @id @default(cuid())
+  name          String
+  rootPath      String    @unique
+  status        String    @default("active") // active | paused
+  healthScore   Int       @default(100)
+  fileCount     Int       @default(0)
+  lastScanAt    DateTime?
+  createdAt     DateTime  @default(now())
+  snapshots     Snapshot[]
+  fileStates    FileState[]
+  symbols       Symbol[]
+  dependencies  Dependency[]
+  issues        Issue[]
+  errorEvents   ErrorEvent[]
+  terminalLogs  TerminalLog[]
+  planItems     PlanItem[]
+  agentSessions AgentSession[]
+}
+
+model Snapshot {
+  id           String   @id @default(cuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  type         String // baseline | micro | semantic | milestone | error | manual
+  label        String // semantic commit message
+  summary      String   @default("")
+  agentName    String   @default("developer")
+  taskContext  String   @default("")
+  tags         String   @default("[]") // JSON array
+  filesChanged Int      @default(0)
+  insertions   Int      @default(0)
+  deletions    Int      @default(0)
+  trigger      String   @default("debounce") // fs-event | command | error | idle | manual | scan | ingest
+  createdAt    DateTime @default(now())
+  files        SnapshotFile[]
+
+  @@index([projectId, createdAt])
+}
+
+model SnapshotFile {
+  id         String   @id @default(cuid())
+  snapshotId String
+  snapshot   Snapshot @relation(fields: [snapshotId], references: [id], onDelete: Cascade)
+  path       String
+  changeType String // add | modify | delete
+  beforeHash String?
+  afterHash  String?
+  insertions Int      @default(0)
+  deletions  Int      @default(0)
+
+  @@index([snapshotId])
+}
+
+model Blob {
+  hash      String   @id
+  content   String
+  size      Int
+  createdAt DateTime @default(now())
+}
+
+model FileState {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  path      String
+  hash      String?
+  size      Int      @default(0)
+  deleted   Boolean  @default(false)
+  updatedAt DateTime @default(now())
+
+  @@unique([projectId, path])
+}
+
+model Symbol {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  filePath   String
+  name       String
+  kind       String // function | method | arrow | class | component | interface | type | constant
+  isExported Boolean  @default(false)
+  startLine  Int      @default(0)
+  endLine    Int      @default(0)
+  paramCount Int      @default(0)
+  unusedParams Int    @default(0)
+  isStub     Boolean  @default(false)
+  hasTodo    Boolean  @default(false)
+  complexity Int      @default(1)
+  bodyHash   String   @default("")
+  signature  String   @default("") // token multiset JSON for similarity
+  callCount  Int      @default(0)
+  isTested   Boolean  @default(false)
+  createdAt  DateTime @default(now())
+
+  @@unique([projectId, filePath, name, startLine])
+  @@index([projectId, name])
+  @@index([projectId, bodyHash])
+}
+
+model Dependency {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  fromPath  String
+  toPath    String
+  kind      String  @default("import") // import | call | test
+  external  Boolean @default(false)
+  resolved  Boolean @default(true)
+
+  @@unique([projectId, fromPath, toPath, kind])
+  @@index([projectId, fromPath])
+}
+
+model Issue {
+  id           String    @id @default(cuid())
+  projectId    String
+  project      Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  kind         String // broken-import | circular-dep | orphan-file | dead-code | duplicate | near-duplicate | missing-impl | stub | no-callers | missing-tests | unused-param | todo
+  severity     String // critical | warning | info
+  title        String
+  detail       String    @default("{}") // JSON
+  filePath     String?
+  symbolName   String?
+  relatedPaths String    @default("[]")
+  detectedAt   DateTime  @default(now())
+  resolvedAt   DateTime?
+
+  @@index([projectId, kind])
+  @@index([projectId, severity])
+}
+
+model ErrorEvent {
+  id          String   @id @default(cuid())
+  projectId   String
+  project     Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  source      String // terminal | ingested | console
+  errorType   String // typescript | module-not-found | syntax | stack | test-fail | generic | warning
+  message     String
+  rawText     String
+  filePath    String?
+  line        Int?
+  stack       String   @default("[]")
+  agentName   String   @default("unknown")
+  rootCause   String? // JSON {snapshotId,label,filePath,agentName}
+  count       Int      @default(1)
+  status      String   @default("open") // open | recurring | resolved
+  firstSeenAt DateTime @default(now())
+  lastSeenAt  DateTime @default(now())
+
+  @@index([projectId, status])
+}
+
+model TerminalLog {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  source    String   @default("terminal") // terminal | ingested
+  command   String?
+  stream    String   @default("stdout") // stdout | stderr | meta
+  text      String
+  createdAt DateTime @default(now())
+
+  @@index([projectId, createdAt])
+}
+
+model PlanItem {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title      String
+  status     String // completed | in-progress | blocked | missing | next
+  category   String   @default("feature") // feature | fix | test | docs | refactor | risk
+  detail     String   @default("")
+  evidence   String   @default("[]") // JSON array of strings
+  confidence Int      @default(50)
+  order      Int      @default(0)
+  updatedAt  DateTime @updatedAt
+
+  @@index([projectId, status])
+}
+
+model AgentSession {
+  id           String   @id @default(cuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  agentName    String
+  taskContext  String   @default("")
+  startedAt    DateTime @default(now())
+  lastActiveAt DateTime @default(now())
+
+  @@index([projectId])
+}
+
+model Setting {
+  key   String @id
+  value String
+}

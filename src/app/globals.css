@@ -1,0 +1,160 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* Agent Watch — dark premium palette (graphite + cyan/violet neon) */
+:root,
+.dark {
+  --radius: 0.625rem;
+  --background: oklch(0.13 0.004 260);
+  --foreground: oklch(0.96 0.002 260);
+  --card: oklch(0.178 0.006 260);
+  --card-foreground: oklch(0.96 0.002 260);
+  --popover: oklch(0.178 0.006 260);
+  --popover-foreground: oklch(0.96 0.002 260);
+  --primary: oklch(0.8 0.14 205);
+  --primary-foreground: oklch(0.15 0.02 220);
+  --secondary: oklch(0.23 0.008 260);
+  --secondary-foreground: oklch(0.96 0.002 260);
+  --muted: oklch(0.21 0.007 260);
+  --muted-foreground: oklch(0.62 0.01 260);
+  --accent: oklch(0.24 0.02 290);
+  --accent-foreground: oklch(0.93 0.03 290);
+  --destructive: oklch(0.68 0.2 20);
+  --destructive-foreground: oklch(0.96 0.002 260);
+  --border: oklch(0.26 0.008 260);
+  --input: oklch(0.26 0.008 260);
+  --ring: oklch(0.8 0.14 205);
+  --chart-1: oklch(0.8 0.14 205);
+  --chart-2: oklch(0.75 0.16 300);
+  --chart-3: oklch(0.78 0.16 150);
+  --chart-4: oklch(0.8 0.16 85);
+  --chart-5: oklch(0.68 0.2 20);
+  --sidebar: oklch(0.15 0.005 260);
+  --sidebar-foreground: oklch(0.96 0.002 260);
+  --sidebar-primary: oklch(0.8 0.14 205);
+  --sidebar-primary-foreground: oklch(0.15 0.02 220);
+  --sidebar-accent: oklch(0.22 0.008 260);
+  --sidebar-accent-foreground: oklch(0.96 0.002 260);
+  --sidebar-border: oklch(0.24 0.008 260);
+  --sidebar-ring: oklch(0.8 0.14 205);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+}
+
+/* Agent Watch custom bits ---------------------------------------------- */
+
+.aw-scroll::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.aw-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.aw-scroll::-webkit-scrollbar-thumb {
+  background: oklch(0.32 0.01 260);
+  border-radius: 8px;
+}
+.aw-scroll::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.42 0.02 260);
+}
+
+.aw-glow {
+  box-shadow: 0 0 24px -6px oklch(0.8 0.14 205 / 0.35);
+}
+
+.aw-card-hover {
+  transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+.aw-card-hover:hover {
+  border-color: oklch(0.5 0.06 205 / 0.6);
+  box-shadow: 0 4px 28px -10px oklch(0.8 0.14 205 / 0.25);
+}
+
+@keyframes aw-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+.aw-live-dot {
+  animation: aw-pulse-dot 1.6s ease-in-out infinite;
+}
+
+@keyframes aw-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.aw-fade-up {
+  animation: aw-fade-up 260ms ease both;
+}
+
+.diff-add {
+  background: oklch(0.75 0.17 150 / 0.13);
+  color: oklch(0.85 0.17 150);
+}
+.diff-del {
+  background: oklch(0.68 0.2 20 / 0.13);
+  color: oklch(0.8 0.16 20);
+}
