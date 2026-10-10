@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "rebrand": "node scripts/rebrand.mjs",
     "db:push": "prisma db push"

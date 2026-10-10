@@ -6,6 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   const settings = await getLLMSettings();
+  // Serverless deploy: never expose the env-injected API key to the browser.
+  if (process.env.VERCEL && settings.apiKey) {
+    settings.apiKey = "";
+  }
   return NextResponse.json({
     settings,
     brand: BRAND,

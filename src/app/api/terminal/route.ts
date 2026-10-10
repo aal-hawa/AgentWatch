@@ -4,7 +4,7 @@ import { getEngine } from "@/lib/engine";
 import { captureCommand } from "@/lib/engine/terminal";
 
 export const dynamic = "force-dynamic";
-export const maxDuration = 600;
+export const maxDuration = 300; // hobby plan cap
 
 export async function POST(req: NextRequest) {
   try {

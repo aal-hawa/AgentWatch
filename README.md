@@ -1,6 +1,18 @@
 # AgentWatch
 
+<p align="center"><img src="public/logo.svg" width="160" alt="AgentWatch logo" /></p>
+
 AgentWatch is a fully local dashboard for monitoring a project folder, recording meaningful checkpoints, and analyzing how code evolves over time. It is designed for developers working with AI coding agents or with their own local workflows, and keeps both data and analysis on the machine.
+
+## 🌐 Live demo (testing only)
+
+**https://agentwatch-henna.vercel.app**
+
+> ⚠️ **This deployment is for testing and previewing only — not a working product.**
+> - The serverless database is **ephemeral**: data resets when the instance goes cold.
+> - Local-machine features (folder watching, terminal capture) are inactive in the cloud.
+> - AI summaries run on a free-tier Google Gemini key (`gemini-flash-latest`) instead of local Ollama models.
+> - For the real experience, run AgentWatch locally (see below).
 
 ## Why AgentWatch
 
