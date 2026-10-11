@@ -1,7 +1,7 @@
 # demo/ — hosted demo deployment (testing only)
 
 This folder contains **everything that exists only for the hosted demo** at
-**https://agentwatch-henna.vercel.app**. The main source tree of AgentWatch is
+**https://agentwatch-demo.vercel.app**. The main source tree of AgentWatch is
 the original, untouched app and keeps working locally exactly as before — all
 serverless adaptations live here.
 

@@ -6,7 +6,7 @@ AgentWatch is a fully local dashboard for monitoring a project folder, recording
 
 ## 🌐 Live demo (testing only)
 
-**https://agentwatch-henna.vercel.app**
+**https://agentwatch-demo.vercel.app**
 
 > ⚠️ **This deployment is for testing and previewing only — not a working product.**
 > - **Two sample demo projects** (`task-api`, `portfolio-site`) are pre-loaded with
