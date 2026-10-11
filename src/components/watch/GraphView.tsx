@@ -16,10 +16,10 @@ type GraphLink = { source: string; target: string; resolved: boolean; external: 
 type GraphData = { nodes: GraphNode[]; links: GraphLink[]; cycles: string[][] };
 
 const STATE_COLOR: Record<string, string> = {
-  ok: "#22d3ee",
-  broken: "#f87171",
-  cycle: "#fbbf24",
-  orphan: "#a78bfa",
+  ok: "#6366f1",
+  broken: "#dc2626",
+  cycle: "#d97706",
+  orphan: "#8b5cf6",
 };
 
 export function GraphView({ events }: { events: EngineEvent[] }) {
@@ -175,7 +175,7 @@ export function GraphView({ events }: { events: EngineEvent[] }) {
             const a = simRef.current.nodes[l.s];
             const b = simRef.current.nodes[l.t];
             const dim = hovered && !(neighbors.has(a.id) && neighbors.has(b.id));
-            ctx.strokeStyle = l.resolved ? `rgba(34,211,238,${dim ? 0.05 : 0.16})` : `rgba(248,113,113,${dim ? 0.08 : 0.5})`;
+            ctx.strokeStyle = l.resolved ? `rgba(99,102,241,${dim ? 0.08 : 0.28})` : `rgba(220,38,38,${dim ? 0.12 : 0.55})`;
             ctx.lineWidth = 1;
             if (!l.resolved) ctx.setLineDash([4, 3]);
             ctx.beginPath();
@@ -188,7 +188,7 @@ export function GraphView({ events }: { events: EngineEvent[] }) {
           // nodes
           for (const n of simRef.current.nodes) {
             const r = 5 + Math.min(14, (n.inbound + n.outbound) * 1.1);
-            const color = STATE_COLOR[n.state] || "#22d3ee";
+            const color = STATE_COLOR[n.state] || "#6366f1";
             const dim = hovered && !neighbors.has(n.id);
             ctx.globalAlpha = dim ? 0.18 : 1;
 
@@ -212,7 +212,7 @@ export function GraphView({ events }: { events: EngineEvent[] }) {
             }
 
             if (view.zoom > 1.15 || hovered?.id === n.id || simRef.current.nodes.length <= 26) {
-              ctx.fillStyle = "rgba(228,228,231,0.85)";
+              ctx.fillStyle = "rgba(28,33,64,0.8)";
               ctx.font = "10px 'Geist Mono', monospace";
               ctx.textAlign = "center";
               ctx.fillText(n.id.split("/").pop() || n.id, n.x, n.y + r + 12);

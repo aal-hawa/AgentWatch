@@ -89,38 +89,34 @@ export default function Page() {
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
-      {/* sidebar */}
-      <aside className="hidden w-56 shrink-0 flex-col border-r border-zinc-800/80 bg-sidebar md:flex">
-        <div className="flex items-center gap-2.5 border-b border-zinc-800/80 px-4 py-4">
-          <div className="aw-glow flex h-9 w-9 items-center justify-center rounded-lg border border-cyan-300/40 bg-cyan-300/10 text-sm font-bold text-cyan-300">
-            {BRAND.name.slice(0, 1)}
-          </div>
-          <div className="min-w-0">
-            <div className="truncate text-sm font-semibold text-zinc-100">{BRAND.name}</div>
-            <div className="text-[9px] uppercase tracking-wider text-zinc-600">read-only observer</div>
+      {/* sidebar — Harbor H2: navy gradient, logo, pill nav */}
+      <aside className="aw-sidebar hidden w-[264px] shrink-0 flex-col md:flex">
+        <div className="px-4 pb-5 pt-6">
+          <img src="/logo-320.png" alt={BRAND.name} width={152} height={152} className="aw-logo block w-[152px]" />
+          <div className="mt-3 px-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#8d99c8]">
+            read-only observer
           </div>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto p-2">
+        <nav className="aw-scroll flex-1 space-y-1.5 overflow-y-auto px-3 py-2">
           {NAV.map((item) => (
             <button
               key={item.id}
               onClick={() => setView(item.id)}
-              className={cn(
-                "flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[12.5px] transition",
-                view === item.id
-                  ? "bg-cyan-300/10 text-cyan-200"
-                  : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
-              )}
+              className={cn("aw-nav-btn", view === item.id && "on")}
             >
-              <span className={cn("w-4 text-center font-mono text-xs", view === item.id ? "text-cyan-300" : "text-zinc-600")}>{item.icon}</span>
+              <span className={cn("w-4 text-center font-mono text-xs", view === item.id ? "opacity-100" : "opacity-70")}>
+                {item.icon}
+              </span>
               {item.label}
             </button>
           ))}
         </nav>
-        <div className="border-t border-zinc-800/80 p-3">
-          <div className="rounded-lg border border-zinc-800/80 bg-zinc-900/40 p-2.5">
-            <div className="text-[9px] uppercase tracking-wider text-zinc-600">Never touches your code</div>
-            <p className="mt-1 text-[10px] leading-relaxed text-zinc-500">
+        <div className="p-3.5">
+          <div className="aw-side-card p-4">
+            <div className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-[#a5b0e0]">
+              Never touches your code
+            </div>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-[#98a1c7]">
               Agent Watch only reads files and observes output. It writes nothing except when you explicitly restore a checkpoint.
             </p>
           </div>
@@ -129,12 +125,10 @@ export default function Page() {
 
       {/* main */}
       <div className="flex min-w-0 flex-1 flex-col">
-        {/* top bar */}
-        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-zinc-800/80 bg-background/80 px-4 backdrop-blur">
+        {/* top bar — light, blurred */}
+        <header className="flex h-14 shrink-0 items-center gap-3 border-b border-zinc-800/60 bg-background/80 px-5 backdrop-blur">
           <div className="flex items-center gap-2 md:hidden">
-            <div className="flex h-7 w-7 items-center justify-center rounded-md border border-cyan-300/40 bg-cyan-300/10 text-xs font-bold text-cyan-300">
-              {BRAND.name.slice(0, 1)}
-            </div>
+            <img src="/logo-320.png" alt="" width={28} height={28} className="h-7 w-7 rounded-[7px]" />
           </div>
           {/* mobile nav */}
           <div className="flex gap-1 overflow-x-auto md:hidden">
@@ -142,7 +136,10 @@ export default function Page() {
               <button
                 key={item.id}
                 onClick={() => setView(item.id)}
-                className={cn("shrink-0 rounded-md px-2 py-1 text-[11px]", view === item.id ? "bg-cyan-300/10 text-cyan-200" : "text-zinc-500")}
+                className={cn(
+                  "shrink-0 rounded-full px-2.5 py-1 text-[11px]",
+                  view === item.id ? "bg-cyan-300/10 text-cyan-200" : "text-zinc-500"
+                )}
               >
                 {item.label.split(" ")[0]}
               </button>
@@ -178,13 +175,13 @@ export default function Page() {
         </header>
 
         {/* view title */}
-        <div className="flex items-baseline gap-3 border-b border-zinc-800/60 px-5 py-3">
+        <div className="flex items-baseline gap-3 border-b border-zinc-800/60 px-6 py-3.5">
           <h1 className="text-lg font-semibold text-zinc-100">{NAV.find((n) => n.id === view)?.label}</h1>
           {activeProject && <span className="truncate font-mono text-[11px] text-zinc-600">{activeProject.rootPath}</span>}
         </div>
 
         {/* content */}
-        <main className="aw-scroll min-h-0 flex-1 overflow-y-auto p-5">
+        <main className="aw-scroll min-h-0 flex-1 overflow-y-auto p-6">
           {view === "dashboard" && <DashboardView events={events} />}
           {view === "timeline" && <TimelineView events={events} />}
           {view === "plan" && <PlanView events={events} />}
@@ -200,10 +197,8 @@ export default function Page() {
       <Dialog open={welcomeOpen} onOpenChange={setWelcomeOpen}>
         <DialogContent className="border-zinc-800 bg-zinc-950">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-zinc-100">
-              <span className="aw-glow flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-300/40 bg-cyan-300/10 text-sm font-bold text-cyan-300">
-                {BRAND.name.slice(0, 1)}
-              </span>
+            <DialogTitle className="flex items-center gap-3 text-zinc-100">
+              <img src="/logo-320.png" alt="" width={36} height={36} className="aw-logo h-9 w-9" />
               Welcome to {BRAND.name}
             </DialogTitle>
             <DialogDescription asChild>

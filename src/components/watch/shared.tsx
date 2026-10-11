@@ -44,7 +44,7 @@ export function Badge({ children, className }: { children: React.ReactNode; clas
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md border px-1.5 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap",
+        "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-medium leading-none whitespace-nowrap",
         "border-zinc-700 bg-zinc-800/60 text-zinc-300",
         className
       )}
@@ -69,7 +69,7 @@ export function HealthRing({ score, size = 92 }: { score: number; size?: number 
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
   const pct = Math.max(0, Math.min(100, score));
-  const color = pct >= 80 ? "#34d399" : pct >= 55 ? "#22d3ee" : pct >= 30 ? "#fbbf24" : "#f87171";
+  const color = pct >= 80 ? "#4f46e5" : pct >= 55 ? "#0284c7" : pct >= 30 ? "#d97706" : "#dc2626";
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
@@ -84,7 +84,7 @@ export function HealthRing({ score, size = 92 }: { score: number; size?: number 
           strokeLinecap="round"
           strokeDasharray={c}
           strokeDashoffset={c - (pct / 100) * c}
-          style={{ transition: "stroke-dashoffset 700ms ease, stroke 400ms ease", filter: `drop-shadow(0 0 6px ${color}66)` }}
+          style={{ transition: "stroke-dashoffset 700ms ease, stroke 400ms ease" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">

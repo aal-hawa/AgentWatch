@@ -41,44 +41,121 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* ------------------------------------------------------------------
+     HARBOR H2 "SOFT" palette remap.
+     The app was built dark-first using raw zinc/cyan/status utilities.
+     Instead of touching every view, the scales below are remapped to
+     the light two-tone design (navy sidebar + light workspace + indigo
+     accent) via runtime CSS vars. Zinc flips dark->light usage by usage:
+       zinc-100..600  were light TEXT on dark  -> now ink/muted text on light
+       zinc-700..900  were dark borders/surfaces -> now light borders/surfaces
+       zinc-950       was popover bg + text-on-accent-btns -> white
+     ------------------------------------------------------------------ */
+  --color-zinc-50: var(--zk50);
+  --color-zinc-100: var(--zk100);
+  --color-zinc-200: var(--zk200);
+  --color-zinc-300: var(--zk300);
+  --color-zinc-400: var(--zk400);
+  --color-zinc-500: var(--zk500);
+  --color-zinc-600: var(--zk600);
+  --color-zinc-700: var(--zk700);
+  --color-zinc-800: var(--zk800);
+  --color-zinc-900: var(--zk900);
+  --color-zinc-950: var(--zk950);
+
+  /* accent: cyan-* utilities become the indigo accent family */
+  --color-cyan-200: var(--cy200);
+  --color-cyan-300: var(--cy300);
+  --color-cyan-400: var(--cy400);
+  --color-cyan-500: var(--cy500);
+
+  /* status colors: dark-theme 300s -> readable-on-light 600/700s */
+  --color-red-50: var(--rd50);
+  --color-red-300: var(--rd300);
+  --color-red-400: var(--rd400);
+  --color-red-500: var(--rd500);
+  --color-emerald-300: var(--em300);
+  --color-emerald-400: var(--em400);
+  --color-emerald-500: var(--em500);
+  --color-amber-200: var(--am200);
+  --color-amber-300: var(--am300);
+  --color-violet-200: var(--vi200);
+  --color-violet-300: var(--vi300);
+  --color-violet-400: var(--vi400);
 }
 
-/* Agent Watch — dark premium palette (graphite + cyan/violet neon) */
+/* Agent Watch — HARBOR H2 "SOFT" · light two-tone enterprise
+   (navy sidebar · light workspace · indigo accent · airy & rounded) */
 :root,
 .dark {
-  --radius: 0.625rem;
-  --background: oklch(0.13 0.004 260);
-  --foreground: oklch(0.96 0.002 260);
-  --card: oklch(0.178 0.006 260);
-  --card-foreground: oklch(0.96 0.002 260);
-  --popover: oklch(0.178 0.006 260);
-  --popover-foreground: oklch(0.96 0.002 260);
-  --primary: oklch(0.8 0.14 205);
-  --primary-foreground: oklch(0.15 0.02 220);
-  --secondary: oklch(0.23 0.008 260);
-  --secondary-foreground: oklch(0.96 0.002 260);
-  --muted: oklch(0.21 0.007 260);
-  --muted-foreground: oklch(0.62 0.01 260);
-  --accent: oklch(0.24 0.02 290);
-  --accent-foreground: oklch(0.93 0.03 290);
-  --destructive: oklch(0.68 0.2 20);
-  --destructive-foreground: oklch(0.96 0.002 260);
-  --border: oklch(0.26 0.008 260);
-  --input: oklch(0.26 0.008 260);
-  --ring: oklch(0.8 0.14 205);
-  --chart-1: oklch(0.8 0.14 205);
-  --chart-2: oklch(0.75 0.16 300);
-  --chart-3: oklch(0.78 0.16 150);
-  --chart-4: oklch(0.8 0.16 85);
-  --chart-5: oklch(0.68 0.2 20);
-  --sidebar: oklch(0.15 0.005 260);
-  --sidebar-foreground: oklch(0.96 0.002 260);
-  --sidebar-primary: oklch(0.8 0.14 205);
-  --sidebar-primary-foreground: oklch(0.15 0.02 220);
-  --sidebar-accent: oklch(0.22 0.008 260);
-  --sidebar-accent-foreground: oklch(0.96 0.002 260);
-  --sidebar-border: oklch(0.24 0.008 260);
-  --sidebar-ring: oklch(0.8 0.14 205);
+  --radius: 1rem;
+
+  --background: #f6f7fc;
+  --foreground: #1c2140;
+  --card: #ffffff;
+  --card-foreground: #1c2140;
+  --popover: #ffffff;
+  --popover-foreground: #1c2140;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+  --secondary: #eef0fe;
+  --secondary-foreground: #4338ca;
+  --muted: #f2f3fa;
+  --muted-foreground: #6d7494;
+  --accent: #eef0fe;
+  --accent-foreground: #4338ca;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --border: #e4e7f4;
+  --input: #d8dbee;
+  --ring: #6366f1;
+  --chart-1: #6366f1;
+  --chart-2: #8b5cf6;
+  --chart-3: #14b8a6;
+  --chart-4: #f59e0b;
+  --chart-5: #ef4444;
+  --sidebar: #182450;
+  --sidebar-foreground: #c6cde9;
+  --sidebar-primary: #6366f1;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #24315e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #263462;
+  --sidebar-ring: #6366f1;
+
+  /* remapped zinc scale (light two-tone) */
+  --zk50: #f8f9fd;
+  --zk100: #1c2140;
+  --zk200: #3a4266;
+  --zk300: #565e80;
+  --zk400: #6d7494;
+  --zk500: #6d7494;
+  --zk600: #8a91ad;
+  --zk700: #c3cade;
+  --zk800: #e4e7f4;
+  --zk900: #f1f2fb;
+  --zk950: #ffffff;
+
+  /* indigo accent family (was cyan) */
+  --cy200: #4338ca;
+  --cy300: #4f46e5;
+  --cy400: #4f46e5;
+  --cy500: #4338ca;
+
+  /* status families */
+  --rd50: #fee2e2;
+  --rd300: #b91c1c;
+  --rd400: #dc2626;
+  --rd500: #b91c1c;
+  --em300: #047857;
+  --em400: #059669;
+  --em500: #047857;
+  --am200: #92400e;
+  --am300: #b45309;
+  --vi200: #7c3aed;
+  --vi300: #6d28d9;
+  --vi400: #7c3aed;
 }
 
 @layer base {
@@ -104,23 +181,23 @@
   background: transparent;
 }
 .aw-scroll::-webkit-scrollbar-thumb {
-  background: oklch(0.32 0.01 260);
+  background: #c9cede;
   border-radius: 8px;
 }
 .aw-scroll::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.42 0.02 260);
+  background: #b3bad2;
 }
 
 .aw-glow {
-  box-shadow: 0 0 24px -6px oklch(0.8 0.14 205 / 0.35);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
 }
 
 .aw-card-hover {
   transition: border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
 }
 .aw-card-hover:hover {
-  border-color: oklch(0.5 0.06 205 / 0.6);
-  box-shadow: 0 4px 28px -10px oklch(0.8 0.14 205 / 0.25);
+  border-color: #c7cdf5;
+  box-shadow: 0 3px 14px rgba(99, 102, 241, 0.09);
 }
 
 @keyframes aw-pulse-dot {
@@ -151,10 +228,47 @@
 }
 
 .diff-add {
-  background: oklch(0.75 0.17 150 / 0.13);
-  color: oklch(0.85 0.17 150);
+  background: #e3f5e9;
+  color: #15803d;
 }
 .diff-del {
-  background: oklch(0.68 0.2 20 / 0.13);
-  color: oklch(0.8 0.16 20);
+  background: #fdeaea;
+  color: #dc2626;
+}
+
+/* ---- H2 sidebar chrome (navy gradient + pill nav) -------------------- */
+.aw-sidebar {
+  background: linear-gradient(180deg, #182450 0%, #1d2c5e 100%);
+}
+.aw-logo {
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+.aw-nav-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 11px;
+  border-radius: 999px;
+  padding: 9px 15px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 500;
+  color: #b9c1e0;
+  transition: background 150ms ease, color 150ms ease, box-shadow 150ms ease;
+}
+.aw-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+.aw-nav-btn.on {
+  background: #4f46e5;
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+.aw-side-card {
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.09);
 }

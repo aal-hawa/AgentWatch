@@ -111,7 +111,7 @@ export function DashboardView({ events }: { events: EngineEvent[] }) {
                 </div>
                 <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-zinc-800">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-violet-400"
+                    className="h-full rounded-full bg-[#818cf8]"
                     style={{ width: `${Math.max(6, (count / maxKind) * 100)}%`, transition: "width 500ms ease" }}
                   />
                 </div>
@@ -127,7 +127,7 @@ export function DashboardView({ events }: { events: EngineEvent[] }) {
             {activityBuckets.map((v, i) => (
               <div key={i} className="group relative flex-1">
                 <div
-                  className="w-full rounded-t bg-gradient-to-t from-cyan-500/40 to-cyan-300/80"
+                  className="w-full rounded-full bg-[#c9cff6]"
                   style={{ height: `${Math.max(3, (v / maxBucket) * 88)}px`, transition: "height 500ms ease" }}
                 />
               </div>

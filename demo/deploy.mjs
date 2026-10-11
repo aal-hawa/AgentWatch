@@ -18,7 +18,7 @@ const TOKEN = process.env.VERCEL_API_TOKEN;
 if (!TOKEN) { console.error("FATAL: VERCEL_API_TOKEN is not set"); process.exit(1); }
 const GEMINI = process.env.GEMINI_API || "";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const NAME = "agentwatch"; // reuse the existing project -> same production URL
+const NAME = "agentwatch-demo"; // reuse the existing project -> same production URL
 let TEAM = null;
 
 // ---- API helper with automatic team-scope retry ----

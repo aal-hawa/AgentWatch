@@ -80,7 +80,7 @@ export function PlanView({ events }: { events: EngineEvent[] }) {
                           <Badge className={CATEGORY_STYLE[item.category] || ""}>{item.category}</Badge>
                           <div className="ml-auto flex items-center gap-1" title={`confidence ${item.confidence}%`}>
                             <div className="h-1 w-10 overflow-hidden rounded-full bg-zinc-800">
-                              <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 to-violet-400" style={{ width: `${item.confidence}%` }} />
+                              <div className="h-full rounded-full bg-[#818cf8]" style={{ width: `${item.confidence}%` }} />
                             </div>
                             <span className="text-[9px] tabular-nums text-zinc-600">{item.confidence}%</span>
                           </div>
