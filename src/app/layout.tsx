@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   keywords: ["AI agent", "monitoring", "code analysis", "watcher", "developer tools"],
   authors: [{ name: BRAND.author || BRAND.name }],
   icons: {
-    icon: "/logo.svg",
+    icon: "/logo.png",
   },
 };
 

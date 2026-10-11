@@ -1,6 +1,6 @@
 # AgentWatch
 
-<p align="center"><img src="public/logo.svg" width="160" alt="AgentWatch logo" /></p>
+<p align="center"><img src="public/logo.png" width="160" alt="AgentWatch logo" /></p>
 
 AgentWatch is a fully local dashboard for monitoring a project folder, recording meaningful checkpoints, and analyzing how code evolves over time. It is designed for developers working with AI coding agents or with their own local workflows, and keeps both data and analysis on the machine.
 
