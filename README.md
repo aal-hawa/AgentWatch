@@ -9,10 +9,18 @@ AgentWatch is a fully local dashboard for monitoring a project folder, recording
 **https://agentwatch-henna.vercel.app**
 
 > ⚠️ **This deployment is for testing and previewing only — not a working product.**
-> - The serverless database is **ephemeral**: data resets when the instance goes cold.
-> - Local-machine features (folder watching, terminal capture) are inactive in the cloud.
-> - AI summaries run on a free-tier Google Gemini key (`gemini-flash-latest`) instead of local Ollama models.
+> - **Two sample demo projects** (`task-api`, `portfolio-site`) are pre-loaded with
+>   snapshots, issues, plan items and terminal logs, so you can explore every view
+>   immediately — no setup needed.
+> - The serverless database is **ephemeral**: data resets when the instance goes
+>   cold, then the demo data is re-seeded automatically.
+> - Local-machine features (folder watching, terminal capture) are inactive in the
+>   cloud, and AI summaries run on a free-tier Google Gemini key
+>   (`gemini-flash-lite-latest`) instead of local Ollama models.
 > - For the real experience, run AgentWatch locally (see below).
+
+All deployment-specific code lives in the [`demo/`](demo/) folder as an overlay —
+the main source tree is the original, untouched app.
 
 ## Why AgentWatch
 
@@ -111,6 +119,7 @@ AgentWatch is designed to stay local:
 ```text
 .
 ├── db/
+├── demo/                  # hosted-demo overlay (testing only — see demo/README.md)
 ├── prisma/
 ├── public/
 ├── scripts/

@@ -12,17 +12,6 @@ export type LLMSettings = {
 export const OLLAMA_BASE = "http://localhost:11434";
 
 export async function getLLMSettings(): Promise<LLMSettings> {
-  // Serverless deploy (Vercel): use Google Gemini via env vars — testing config.
-  // Local machines are untouched and keep their saved settings (Ollama, etc).
-  const envKey = process.env.GEMINI_API || process.env.GOOGLE_API_KEY || "";
-  if (process.env.VERCEL && envKey) {
-    return {
-      provider: "openai",
-      apiKey: envKey,
-      baseUrl: process.env.AW_LLM_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai",
-      model: process.env.AW_LLM_MODEL || "gemini-flash-latest",
-    };
-  }
   const rows = await db.setting.findMany({
     where: { key: { in: ["llm.provider", "llm.apiKey", "llm.baseUrl", "llm.model"] } },
   });
